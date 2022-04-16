@@ -1,0 +1,27 @@
+.login{
+    height: inherit;
+    padding: 0 15rem;
+    padding-top: 15%;
+}
+
+.login .gooogleLogin,
+.login .emailLogin{
+    padding: 0 5rem;
+}
+
+
+.login .gooogleLogin .ttn-logo{
+    width: 10rem;
+}
+
+.login .gooogleLogin h2{
+    margin-bottom: 2rem;
+    line-height: 3rem;
+    padding-right: 8rem;
+    padding-left: 8rem;
+}
+
+.login .gooogleLogin h5{
+    margin-bottom: 4rem;
+}
+

@@ -6,6 +6,7 @@ html{
 body{
   font-size: 1.4rem;
   font-family: "Robot-Regular", sans-serif;
+  min-height: 100vh;
 }
 
 *,
@@ -25,4 +26,9 @@ ul{
 
 a{
   text-decoration: none;
+  color: black;
+}
+
+#root{
+  height: 100vh;
 }

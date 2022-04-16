@@ -1,0 +1,38 @@
+
+.circularButton{
+    font-size: 1.5rem;
+    padding: 1rem 4rem;
+    border-radius: 5rem;
+}
+
+.circularButton:hover{
+    background-color: transparent;
+}
+
+.pink{
+    border-color: #FF337A;
+    color: #FF337A;
+}
+
+.pink:hover{
+    background-color: #FF337A;
+    color: #fff;
+    border-color: #FF337A;
+}
+
+.purple{
+    background-color: #9816f3;
+    color: #fff;
+    border-color: #9816f3;
+}
+
+.purple:disabled{
+    border-color: #9816f3;
+    color: gray;
+}
+
+.purple:hover{
+    background-color: white;
+    border-color: #9816f3;
+    color: #9816f3;
+}
