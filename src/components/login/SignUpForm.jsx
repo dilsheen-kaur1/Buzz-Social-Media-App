@@ -29,6 +29,9 @@ const validate = values => {
 };
 
 function SignUpForm(props) {
+  const {
+    loginType
+  } = props
   let [showPass, setShowPass] = useState(false);
   let [showName, setShowName] = useState("block");
   let passRef = useRef(null);
@@ -43,8 +46,10 @@ function SignUpForm(props) {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: values => {
-      // alert(JSON.stringify(values, null, 2));
       console.log("submitted");
+      {loginType==='Sign Up' ?
+      <h1 style={{display:"none"}}>Sign Up call</h1>:
+      <h1 style={{display:"none"}}>Login call</h1>}
     },
   });
 
@@ -58,9 +63,7 @@ function SignUpForm(props) {
     }
   }
 
-  const {
-    loginType
-  } = props
+  
 
   return (
     <Form onSubmit={formik.handleSubmit}>

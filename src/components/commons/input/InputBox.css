@@ -1,0 +1,42 @@
+.profile-input{
+    margin-bottom: 4rem;
+    width: 45%;
+}
+
+.profile-input label{
+    color: #a4a6b3;
+}
+
+.profile-input input{
+    padding: 1rem;
+    outline: none;
+    border: 1px solid #dcdcdc;
+    border-radius: 0.5rem;
+}
+
+.profile-input input:focus-visible{
+    border:1px solid #4a90e2;
+}
+
+.profile-input input::placeholder{
+    color: #e5e5e5;
+}
+
+.gender-input{
+    outline: none;
+    border: 1px solid #dcdcdc;
+    border-radius: 0.5rem;
+}
+
+.gender-input div{
+    padding: 0.5rem 2rem;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+    
+}
+
+.gender-input .active{
+    background-color: #4a90e2;
+    border-radius: 0.5rem;
+}

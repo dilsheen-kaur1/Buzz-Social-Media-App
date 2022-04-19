@@ -1,0 +1,26 @@
+.friends-list{
+    padding: 1.5rem 1rem 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    height: fit-content;
+    max-height: 45rem;
+}
+
+.friends-list h2{
+    font-weight: 600;
+}
+
+.friends-list .user-image{
+    border-radius: 50%;
+    width: 3.5rem;
+    margin-right: 0.5rem;
+}
+
+.friends-list .suggestions-list{
+    max-height: 39rem;
+    overflow-y: scroll;
+}
+
+.friends-list .suggestions-list .suggestions-item a{
+    color: #2699fb;
+}

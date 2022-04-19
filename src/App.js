@@ -1,18 +1,28 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import axios from 'axios'
+import Header from './components/commons/header/Header';
 import Login from './components/login/Login';
-import SignIn from './components/login/SignIn';
+import EditProfile from './components/profile/myProfile/EditProfile';
+import UserProfile from './components/profile/userProfile/UserProfile';
 function App() {
   return (
-    // <Router>
-    //   <Routes>
-    //     <Route path='/' element={
-    //       <Login/>
-    //     }>
-    //     </Route>
-    //   </Routes>
-    // </Router>
-    <SignIn />
-    
+    <Router>
+      <Routes>
+        <Route path='/' element={
+          <Login/>
+        }>
+        </Route>
+      </Routes>
+      <Routes>
+        <Route path='/feed' element={
+          <Header/>}>
+        </Route>
+        <Route path='/userProfile' element={
+          <UserProfile userType="user"/>}/>
+        <Route path='/editProfile' element={
+          <UserProfile userType="self"/>}/>
+      </Routes>
+    </Router>    
   );
 }
 

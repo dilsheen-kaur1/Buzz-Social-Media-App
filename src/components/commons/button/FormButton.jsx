@@ -7,7 +7,8 @@ function FormButton(props) {
     buttonStyle,
     color,
     disabled,
-    onSuccess
+    onSuccess,
+    src
   } = props;
   
   // function signOut() {
@@ -28,7 +29,16 @@ function FormButton(props) {
           {name}
       </Button>
         :
-        <button type="button" className="btn btn-outline-primary">{name}</button>
+      <Button variant="outline-primary"
+        type='submit'
+        className={color==='blue' ? 'blue': 'blue-filled'}
+        >
+          {src?<>
+            <img src={src} alt="add" className='button-image'/>
+            <span className='button-text'>{name}</span>
+          </>:<>{name}</>}
+        
+      </Button>
     }
     {/* <div><a href="#" onclick={signOut}>Sign out</a></div> */}
     </>
