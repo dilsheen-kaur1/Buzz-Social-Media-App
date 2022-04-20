@@ -1,6 +1,7 @@
 import FormButton from '../commons/button/FormButton';
 import { useState, useRef } from 'react'
 import { useFormik } from 'formik';
+import  axios  from 'axios';
 import { Form, Row, Col } from 'react-bootstrap'
 import axios from "axios";
 import { bindActionCreators, compose } from "redux";
@@ -29,6 +30,9 @@ const validate = values => {
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address';
   }
+  else if(!values.email.endsWith('tothenew.com')){
+    errors.email = 'Enter TTN email addresss ';
+  }
 
   return errors;
 };
@@ -47,7 +51,8 @@ function SignUpForm(props) {
 
   const formik = useFormik({
     initialValues: {
-      name: loginType==="Sign Up" ? '' : "undefined",
+      // name: loginType==="Sign Up" ? '' : "undefined",
+      name: '',
       email: '',
       password: ''
     },
@@ -56,15 +61,6 @@ function SignUpForm(props) {
     validateOnBlur: false,
     onSubmit: values => {
       console.log("submitted");
-      // {loginType==='Sign In' ?
-      // <>
-      //   {Login()}
-      // </>
-      // :
-      // <>
-
-      // {Signup()}
-      // </>}
       if(loginType==='Sign In'){
         Login()
       }
@@ -83,8 +79,27 @@ function SignUpForm(props) {
       setShowPass(false);
     }
   }
-  
-  async function Signup() {
+
+  function Login() {
+    let json = {
+      "email": formik.values.email,
+      "password": formik.values.password
+    };  
+    console.log("1");
+    axios({
+        method: "post",
+        url: "http://localhost:3000/api/auth/login",
+        data: json,
+        headers: {"Content-Type": "application/json"}
+    })
+    .then(res => {
+      console.log(res.data)
+    }).catch(err => {
+      console.log(err);
+    }) 
+  }
+
+  function Signup() {
     
     let json = { 
       "name": formik.values.name,
@@ -99,10 +114,19 @@ function SignUpForm(props) {
     })
     .then(res => {
       console.log(res.data)
+<<<<<<< Updated upstream
     }).catch(err => {
       console.log(err);
     }) 
   }
+=======
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+>>>>>>> Stashed changes
 
   async function Login(props) {
     let json = {

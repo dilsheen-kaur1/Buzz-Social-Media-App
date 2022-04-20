@@ -56,3 +56,8 @@
     color: #fff;
     margin-right: 2rem;
 }
+
+.btn-padding{
+    padding: 0.75rem 2rem;
+    font-size: 1.3rem;
+}

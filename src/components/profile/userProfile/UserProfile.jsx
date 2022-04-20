@@ -23,8 +23,8 @@ function UserProfile(props) {
           <h2 className="ps-5">Sarah is the co-founder and COO of video tech add company,</h2>
           <h4 className="ps-5">London . England . United Kingdom . 234 friends</h4>
           <div className="ps-5">
-            <Button name="Add Friend" src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/add-user.png`} color="blue-filled"/>
-            <Button name="Visit Website" src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/external-link.png`} color="blue"/>
+            <Button name="Add Friend" buttonStyle="withImg" src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/add-user.png`} color="blue-filled"/>
+            <Button name="Visit Website" buttonStyle="withImg" src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/external-link.png`} color="blue"/>
           </div>
           </>
           :

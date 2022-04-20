@@ -1,10 +1,18 @@
 import Search from '../../profile/common/Search'
 import './FriendsList.css'
+import {useEffect} from 'react'
 
 function FriendsList(props) {
     const{
         name
     }= props
+    
+    useEffect(() => {
+      
+    
+      
+    }, [])
+    
   return (
       <div className='friends-list'>
         <div className='d-flex justify-content-between'>

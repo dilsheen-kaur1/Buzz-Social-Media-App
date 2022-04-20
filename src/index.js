@@ -5,13 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import { createStore } from 'redux'
-import combineReducers from '../src/redux/rootReducer'
+import rootReducer from '../src/redux/rootReducer'
 import {Provider} from 'react-redux'
 
 // import rootReducer from '../src/redux/rootReducer'
 // let store = createStore(combineReducer,
   // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-const store = createStore(combineReducers);
+const store = createStore(rootReducer);
 
 // ReactDOM.render(
 //   <Provider store={store}>

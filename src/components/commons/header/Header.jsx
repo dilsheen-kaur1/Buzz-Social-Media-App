@@ -1,9 +1,17 @@
 import "./Header.css"
+import {setProfilePhoto} from '../../../redux/actions/updateProfileAction'
+import {useSelector} from 'react-redux'
 
 function Header(props) {
-    const{
-        name
-    }=props
+  const{
+      name
+  }=props
+  const updateProfile = useSelector(state => state.updateProfile)
+
+  const{
+    profilePhoto
+  } = updateProfile
+
   return (
     <div className="container-fluid px-5 header">
     <header className="d-flex flex-wrap justify-content-center">
@@ -13,7 +21,7 @@ function Header(props) {
 
       <ul className="nav nav-pills right-header align-items-center">
         <li className="nav-item me-2"><a href="#" className="nav-link">
-            <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/dummy-user.jpg`} alt="user" className="user-image header-user-image"/>
+            <img src={profilePhoto} alt="user" className="user-image header-user-image"/>
             <span style={{color:"black"}}>dilsheen</span>
         </a></li>
         <li className="nav-item me-3"><a href="#" className="nav-link"><img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/user.PNG`} alt="friend-requests"/></a></li>

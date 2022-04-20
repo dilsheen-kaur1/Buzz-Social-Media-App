@@ -28,7 +28,7 @@ function FormButton(props) {
         data-onsuccess={onSuccess!==""?onSuccess :" "}>
           {name}
       </Button>
-        :
+        : buttonStyle==="withImg"?
       <Button variant="outline-primary"
         type='submit'
         className={color==='blue' ? 'blue': 'blue-filled'}
@@ -37,8 +37,14 @@ function FormButton(props) {
             <img src={src} alt="add" className='button-image'/>
             <span className='button-text'>{name}</span>
           </>:<>{name}</>}
-        
       </Button>
+      :
+      <Button variant="outline-primary"
+        type='submit'
+        className={color==='blue' ? 'blue btn-padding': 'blue-filled btn-padding'}>
+          {name}
+      </Button>
+
     }
     {/* <div><a href="#" onclick={signOut}>Sign out</a></div> */}
     </>
