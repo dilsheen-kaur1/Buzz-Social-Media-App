@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 
 import auth from './reducers/auth';
 import post from './reducers/post';
-import updateProfileReducer from "./reducers/updateProfileReducer";
+import loginReducer from "./Login/loginReducer";
 
 // export default function createRootReducer() {
 //   return combineReducers({
@@ -15,7 +15,7 @@ import updateProfileReducer from "./reducers/updateProfileReducer";
 const rootReducer = combineReducers({
   auth, 
   post,
-  updateProfile : updateProfileReducer
+  login:loginReducer
 });
 
 export default rootReducer;

@@ -1,15 +1,24 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import axios from 'axios'
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import {useSelector} from 'react-redux'
 import Header from './components/commons/header/Header';
 import Post from './components/feed/posts/Post';
 import InfoCard from './components/feed/InfoCard/InfoCard';
 import Login from './components/login/Login';
 import EditProfile from './components/profile/myProfile/EditProfile';
 import UserProfile from './components/profile/userProfile/UserProfile';
-import Extra from './components/profile/userProfile/Extra';
+
+toast.configure();
+
 function App() {
+  const updateProfile = useSelector(state => state.login)
+  const{
+    loggedIn
+  }=updateProfile
+
   return (
     <Router>
+      <ToastContainer transition={Slide} />
       <Routes>
         <Route path='/buzz' element={
           <Login/>

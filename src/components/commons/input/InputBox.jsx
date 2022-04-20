@@ -21,11 +21,10 @@ function InputBox(props) {
                         <div className={gender === 'male' ? 'active' : null} onClick={() => setGender('male')}>Male</div>
                     </div>
                 </div>
-                : id === "state" ?
-                    <div class="profile-input d-flex flex-column me-5">
+                : id === "stateAddress" ?
+                    <div className="profile-input d-flex flex-column me-5">
                         <label htmlFor={id} className='mb-3'>{name}</label>
                         <select className="form-select state-list" aria-label="Default select example">
-                            <option selected>State</option>
                             <option value="Delhi">Delhi</option>
                             <option value="Punjab">Punjab</option>
                             <option value="UP">UP</option>
@@ -40,13 +39,16 @@ function InputBox(props) {
                             placeholder={name}
                             style={{ color: type === "date" ? '#e5e5e5' : null }}
                             min={type === "number" ? "100000" : null}
-                            max={type === "number" ? "999999" : type==="date"? "2004-01-01":null}
+                            max={type === "number" ? "999999" : type === "date" ? "2004-01-01" : null}
                             value={values}
                             onChange={onchange}
-                            onBlur={onblurr}/>
+                            onBlur={onblurr}
+                            onKeyDown={type === 'date' ? (e) => e.preventDefault() : null} />
                     </div>
-
             }
+                {/* if(id==="firstName") {
+                    formik.errors.email ? <div style={{ color: 'red' }}>{formik.errors.email}</div> : null
+                } */}
         </>
     )
 }

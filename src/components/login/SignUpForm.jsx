@@ -1,12 +1,14 @@
 import FormButton from '../commons/button/FormButton';
 import { useState, useRef } from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
 import  axios  from 'axios';
 import { Form, Row, Col } from 'react-bootstrap'
-import axios from "axios";
 import { bindActionCreators, compose } from "redux";
 import { connect } from "react-redux";
 import { setUserInfo } from '../../redux/actions/user';
+import {loginScucess, setProfilePhoto} from '../../redux/Login/loginAction'
 import withRouter from '../../router.js';
 import './SignUpForm.css'
 
@@ -39,37 +41,57 @@ const validate = values => {
 
 function SignUpForm(props) {
   const {
-    loginType
-  } = props
+    loginType,
+    notify,
+    setLoginType
+  } = props;
+  let navigate = useNavigate();
+  const updateProfile = useSelector(state => state.login)
+  const dispatch = useDispatch()
+
+  // const{
+  //   firstName,
+  //   lastName,
+  //   gender,
+  //   isAdmin,
+  //   designation,
+  //   myWebsite,
+  //   birthday,
+  //   city,
+  //   stateAddress,
+  //   pinCode
+  // } = updateProfile
+
   let [showPass, setShowPass] = useState(false);
-  let [showName, setShowName] = useState("block");
+  // let [showName, setShowName] = useState("block");
   let passRef = useRef(null);
 
-  let [name, setName] = useState();
-  let [email, setEmail] = useState();
-  let [password, setPassword] = useState();
+  // let [name, setName] = useState();
+  // let [email, setEmail] = useState();
+  // let [password, setPassword] = useState();
 
   const formik = useFormik({
     initialValues: {
-      // name: loginType==="Sign Up" ? '' : "undefined",
-      name: '',
+      name: loginType==="Sign In" ? "undefined": '',
       email: '',
       password: ''
     },
+    enableReinitialize:true,
     validate,
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: values => {
       console.log("submitted");
+      formik.resetForm();
+      formik.resetForm({ name: ''});
       if(loginType==='Sign In'){
-        Login()
+        Login() 
       }
        else{
         Signup()
        } 
     },
   });
-
 
   const showPassword = () => {
     if (passRef.current.type === 'password') {
@@ -80,27 +102,7 @@ function SignUpForm(props) {
     }
   }
 
-  function Login() {
-    let json = {
-      "email": formik.values.email,
-      "password": formik.values.password
-    };  
-    console.log("1");
-    axios({
-        method: "post",
-        url: "http://localhost:3000/api/auth/login",
-        data: json,
-        headers: {"Content-Type": "application/json"}
-    })
-    .then(res => {
-      console.log(res.data)
-    }).catch(err => {
-      console.log(err);
-    }) 
-  }
-
   function Signup() {
-    
     let json = { 
       "name": formik.values.name,
       "email": formik.values.email,
@@ -113,7 +115,10 @@ function SignUpForm(props) {
         headers: {"Content-Type": "application/json"}
     })
     .then(res => {
-      console.log(res.data)
+      if(res.data.name){
+        notify()
+        setLoginType('Sign In')
+      }
     })
     .catch(err => {
       console.log(err);
@@ -121,22 +126,29 @@ function SignUpForm(props) {
   }
 
 
-  async function Login(props) {
+  function Login() {
     let json = {
       "email": formik.values.email,
       "password": formik.values.password
     };  
-    console.log("1");
     axios({
         method: "post",
         url: "http://localhost:3000/api/auth/login",
         data: json,
         headers: {"Content-Type": "application/json"}
     })
-    .then( (res) => {
-      // console.log(res)
-      setUserInfo(res);
-      localStorage.setItem("user", JSON.stringify(res));
+    .then((res) => {
+      if(res.data.email){
+        setUserInfo(res);
+        localStorage.setItem("user", JSON.stringify(res));
+
+        let {
+          firstName,lastName,_id,gender,profilePicture,isAdmin,designation,birthday,stateAddress,city,pinCode,myWebsite
+        } = res.data
+        dispatch(setProfilePhoto(profilePicture))
+        dispatch(loginScucess(true, _id,firstName,lastName,gender,designation,myWebsite,birthday,city,stateAddress,pinCode,isAdmin))
+        navigate('/editProfile')
+      }
     }).catch(err => {
       console.log(err);
     }) 

@@ -1,25 +1,26 @@
 import './Common.css'
 import axios from 'axios'
 import {useSelector, useDispatch} from 'react-redux'
-import {setProfilePhoto} from '../../../redux/actions/updateProfileAction'
+import {setProfilePhoto} from '../../../redux/Login/loginAction'
 
 function Common(props) {
   const {
     type
   } = props
 
-  const updateProfile = useSelector(state => state.updateProfile)
+  const updateProfile = useSelector(state => state.login)
   const dispatch = useDispatch()
 
   const{
-    profilePhoto
+    profilePhoto,
+    userId
   } = updateProfile
 
   const applyProfilePhoto = (e)=>{
-    let file = e. target.files[0]
+    let file = e.target.files[0]
     let bodyFormData = new FormData()
     bodyFormData.append('photo', file)
-    bodyFormData.append('id','625efde1307a9557ff8d6a52')
+    bodyFormData.append('id',userId)
     axios({
       method: "post",
       url: 'http://localhost:3000/api/profile/profilePhoto',
@@ -40,7 +41,7 @@ function Common(props) {
       </div>
       <div className='profile-photo'>
         <img src={profilePhoto} alt="profile photo" className='' />
-        {type == 'edit' ?
+        {type === 'edit' ?
           <>
             <div className='add-photo'>
               {/* <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/add-photo.png`} alt="add photo" /> */}

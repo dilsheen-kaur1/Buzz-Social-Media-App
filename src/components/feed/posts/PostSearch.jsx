@@ -34,16 +34,13 @@ function PostSearch() {
     }
 
     // return (
-    //   <form onSubmit={(e) => uploadFile(e)}>
-    //     <input type="file" name="uploadFile" accept="image/jpeg,image/jpg,image/png" />
-    //     <input type='submit' />
-    //   </form>
+    //   
     // )
 
 
   return (
     <div>
-      <div className="search-wrapper">
+      {/* <div className="search-wrapper">
         <img src={defaultProfilePicture} alt="" />
         <input
           type="text"
@@ -60,7 +57,20 @@ function PostSearch() {
           {" "}
         </span>
         <span className='photo-video'>Photo/Video</span>
-      </div>
+      </div> */}
+      <form onSubmit={(e) => uploadFile(e)}>
+        <input
+            type="text"
+            className='search-field'
+            placeholder='Start a post...'
+            name='search'
+            // onKeyDown={submitPost}
+            onChange={(event) => setPostText(event.target.value)}
+            value={postText}
+          />
+          <input type="file" name="uploadFile" accept="image/jpeg,image/jpg,image/png" />
+         <input type='submit' />
+      </form>
     </div>
   );
 }

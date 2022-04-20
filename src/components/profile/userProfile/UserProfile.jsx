@@ -3,17 +3,30 @@ import FriendsList from "../../commons/friendList/FriendsList"
 import Header from "../../commons/header/Header"
 import Common from "../common/Common"
 import EditProfile from "../myProfile/EditProfile"
+import {useSelector} from 'react-redux'
 import './UserProfile.css'
 
 function UserProfile(props) {
   const{
     userType
   }=props
+
+  const updateProfile = useSelector(state => state.login)
+  const{
+    firstName,
+    // lastName,
+    // gender,
+    // isAdmin,
+    // designation,
+    // myWebsite,
+    // birthday,
+    // city,
+    // stateAddress,
+    // pinCode
+  } = updateProfile
   return (
     <>
-      {/* <div className="header"> */}
         <Header />
-      {/* </div> */}
       <div className="user-profile d-flex"
       style={{height: userType==="user"? "calc(100vh - 5.6rem)" : null}}>
         <div className="user-profile-details pb-5">
@@ -30,7 +43,7 @@ function UserProfile(props) {
           :
           <>
             <Common type="edit"/>
-            <h1 className="ps-5">Sara Woods</h1>
+            <h1 className="ps-5">{firstName.charAt(0).toUpperCase()+firstName.slice(1)}</h1>
             <EditProfile />
           </>
           

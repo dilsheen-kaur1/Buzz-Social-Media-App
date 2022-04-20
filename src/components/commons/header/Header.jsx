@@ -1,15 +1,15 @@
 import "./Header.css"
-import {setProfilePhoto} from '../../../redux/actions/updateProfileAction'
 import {useSelector} from 'react-redux'
 
 function Header(props) {
   const{
       name
   }=props
-  const updateProfile = useSelector(state => state.updateProfile)
+  const updateProfile = useSelector(state => state.login)
 
   const{
-    profilePhoto
+    profilePhoto,
+    firstName
   } = updateProfile
 
   return (
@@ -22,7 +22,7 @@ function Header(props) {
       <ul className="nav nav-pills right-header align-items-center">
         <li className="nav-item me-2"><a href="#" className="nav-link">
             <img src={profilePhoto} alt="user" className="user-image header-user-image"/>
-            <span style={{color:"black"}}>dilsheen</span>
+            <span style={{color:"black"}}>{firstName}</span>
         </a></li>
         <li className="nav-item me-3"><a href="#" className="nav-link"><img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/user.PNG`} alt="friend-requests"/></a></li>
         <li className="nav-item"><a href="#" className="nav-link"><img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/down-arrow.PNG`} alt="down-arrow"/></a></li>
