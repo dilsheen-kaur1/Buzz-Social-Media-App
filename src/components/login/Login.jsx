@@ -4,7 +4,7 @@ import SignUpForm from './SignUpForm'
 import {useState} from 'react'
 
 function Login() {
-    let [loginType, setLoginType] = useState('Sign Up')
+    let [loginType, setLoginType] = useState('Sign In')
 
     const changeLoginType = ()=>{
         if(loginType==='Sign Up'){

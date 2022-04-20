@@ -2,6 +2,11 @@ import FormButton from '../commons/button/FormButton';
 import { useState, useRef } from 'react'
 import { useFormik } from 'formik';
 import { Form, Row, Col } from 'react-bootstrap'
+import axios from "axios";
+import { bindActionCreators, compose } from "redux";
+import { connect } from "react-redux";
+import { setUserInfo } from '../../redux/actions/user';
+import withRouter from '../../router.js';
 import './SignUpForm.css'
 
 const validate = values => {
@@ -36,9 +41,13 @@ function SignUpForm(props) {
   let [showName, setShowName] = useState("block");
   let passRef = useRef(null);
 
+  let [name, setName] = useState();
+  let [email, setEmail] = useState();
+  let [password, setPassword] = useState();
+
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name: loginType==="Sign Up" ? '' : "undefined",
       email: '',
       password: ''
     },
@@ -47,9 +56,21 @@ function SignUpForm(props) {
     validateOnBlur: false,
     onSubmit: values => {
       console.log("submitted");
-      {loginType==='Sign Up' ?
-      <h1 style={{display:"none"}}>Sign Up call</h1>:
-      <h1 style={{display:"none"}}>Login call</h1>}
+      // {loginType==='Sign In' ?
+      // <>
+      //   {Login()}
+      // </>
+      // :
+      // <>
+
+      // {Signup()}
+      // </>}
+      if(loginType==='Sign In'){
+        Login()
+      }
+       else{
+        Signup()
+       } 
     },
   });
 
@@ -62,9 +83,47 @@ function SignUpForm(props) {
       setShowPass(false);
     }
   }
-
   
+  async function Signup() {
+    
+    let json = { 
+      "name": formik.values.name,
+      "email": formik.values.email,
+      "password": formik.values.password
+    };  
+    axios({
+        method: "post",
+        url: "http://localhost:3000/api/auth/signup",
+        data: json,
+        headers: {"Content-Type": "application/json"}
+    })
+    .then(res => {
+      console.log(res.data)
+    }).catch(err => {
+      console.log(err);
+    }) 
+  }
 
+  async function Login(props) {
+    let json = {
+      "email": formik.values.email,
+      "password": formik.values.password
+    };  
+    console.log("1");
+    axios({
+        method: "post",
+        url: "http://localhost:3000/api/auth/login",
+        data: json,
+        headers: {"Content-Type": "application/json"}
+    })
+    .then( (res) => {
+      // console.log(res)
+      setUserInfo(res);
+      localStorage.setItem("user", JSON.stringify(res));
+    }).catch(err => {
+      console.log(err);
+    }) 
+  }
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group as={Row} className="mb-5 justify-content-center w-75 mx-auto" controlId="formPlaintextText"
@@ -77,7 +136,7 @@ function SignUpForm(props) {
             name='name'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.name} />
+            value={loginType==='Sign Up'? formik.values.name:"null"} />
         </Col>
         {formik.errors.name ? <div style={{ color: 'red' }}>{formik.errors.name}</div> : null}
       </Form.Group>
@@ -119,7 +178,7 @@ function SignUpForm(props) {
         </Col>
       </Form.Group>
       <FormButton name={loginType}
-        disabled={formik.values.email.trim() === '' || formik.values.password.trim() === '' || loginType==='Sign Up'?formik.values.name.trim() === '': false
+        disabled={formik.values.email.trim() === '' || formik.values.password.trim() === '' || formik.values.name.trim() === ''
         }
         buttonStyle="circular" color="purple" />
       {/* <Button name="Existing User" buttonType="circular" color="fff" borderColor="9816f3" bgColor="9816f3" ml={3}/> */}
@@ -127,4 +186,12 @@ function SignUpForm(props) {
   )
 }
 
-export default SignUpForm
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({setUserInfo}, dispatch);
+}
+
+export default compose(connect(mapStateToProps, mapDispatchToProps)) (
+  withRouter(SignUpForm)
+); 

@@ -23,7 +23,7 @@ function FormButton(props) {
       buttonStyle === 'circular' ? 
       <Button variant="outline-primary" 
         type="submit"
-        disabled={disabled}
+        // disabled={disabled}
         className={color==='pink' ? 'g-signin2 pink': color==='purple'? 'circularButton purple':''}
         data-onsuccess={onSuccess!==""?onSuccess :" "}>
           {name}

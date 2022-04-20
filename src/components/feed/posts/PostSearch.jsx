@@ -1,80 +1,62 @@
 import React, { useState } from 'react';
 import "./PostSearch.css";
-import defaultProfilePicture from './defaultProfilePicture.png'
-import { bindActionCreators, compose } from "redux";
-import { connect } from "react-redux";
-import { setPost } from "../../../redux/actions/post.js";
+import defaultProfilePicture from './defaultProfilePicture.png';
+import axios from "axios";
 
-function PostSearch(props) {
-  const [postText, setPostText] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-
-  const selectMedia = () => {
-    const myWidget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: process.env.CLOUDINARY_NAME,
-      },
-      (error, result) => {
-        if(!error && result && result.event === "success") {
-          setImageUrl(result.info.url);
-        }
+function PostSearch() {
+  let data = localStorage.getItem("user");
+  let userId = (JSON.parse(data)).data.user_id;
+  const [desc, setDesc] = useState('');
+  const [postText, setPostText] = useState('');
+  
+    const uploadFile = (e) => {
+      e.preventDefault()
+      let file = e.target.uploadFile.files[0]
+      let bodyFormData = new FormData()
+      bodyFormData.append('photo', file)
+      bodyFormData.append('description', postText)
+      bodyFormData.append('userId', userId)
+      
+      function fetchPostData() {
+        axios({
+          method: "post",
+          url: 'http://localhost:3000/api/feed/post',
+          data: bodyFormData,
+          headers: { "Content-Type": "undefined" }
+        })
+          .then(res => {
+            console.log(res.data)
+          }).catch(err => {
+            console.log(err);
+          })
       }
-    );
-    myWidget.open();
-  };
-
-  const submitPost = async(e) => {
-    const key = e.keyCode;
-    if(key === 13 && postText.length > 0) {
-      const postObj = {
-        description: postText,
-        url: imageUrl,
-        comments: [],
-        createdBy: props.user?.user_id,
-      };
-      setPostText("");
-      setImageUrl("");
-      await fetch("http://localhost:3001/api/feed/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(postObj),
-      });
       fetchPostData();
     }
-  };
 
-  const fetchPostData = async () => {
-    let result = await fetch("http://localhost:3001/api/feed/allPosts", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const posts = await result.json();
-    console.log(posts);
-    props.setPost(posts);
-  };
+    // return (
+    //   <form onSubmit={(e) => uploadFile(e)}>
+    //     <input type="file" name="uploadFile" accept="image/jpeg,image/jpg,image/png" />
+    //     <input type='submit' />
+    //   </form>
+    // )
 
 
   return (
     <div>
       <div className="search-wrapper">
-        <img src={props?.user?.profilePicture || defaultProfilePicture} alt="" />
-        <input 
-          type="text" 
-          className='search-field' 
-          placeholder='Start a post...' 
-          name='search' 
-          onKeyDown={submitPost} 
-          onChange={(event) => setPostText(event.target.value)} 
+        <img src={defaultProfilePicture} alt="" />
+        <input
+          type="text"
+          className='search-field'
+          placeholder='Start a post...'
+          name='search'
+          // onKeyDown={submitPost}
+          onChange={(event) => setPostText(event.target.value)}
           value={postText}
         />
 
-        <span className='photo-logo' onClick={selectMedia}>
+        <span className='photo-logo' onClick={(e) => uploadFile(e)}>
+        <input type="file" name="uploadFile" accept="image/jpeg,image/jpg,image/png" />
           {" "}
         </span>
         <span className='photo-video'>Photo/Video</span>
@@ -83,15 +65,4 @@ function PostSearch(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  post: state.post
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({setPost}, dispatch);
-}
-
-export default compose(connect(mapStateToProps, mapDispatchToProps)) (
-  PostSearch
-);  
+export default PostSearch;  
