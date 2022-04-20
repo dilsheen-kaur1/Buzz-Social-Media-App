@@ -114,19 +114,12 @@ function SignUpForm(props) {
     })
     .then(res => {
       console.log(res.data)
-<<<<<<< Updated upstream
-    }).catch(err => {
-      console.log(err);
-    }) 
-  }
-=======
     })
     .catch(err => {
       console.log(err);
     })
   }
 
->>>>>>> Stashed changes
 
   async function Login(props) {
     let json = {
