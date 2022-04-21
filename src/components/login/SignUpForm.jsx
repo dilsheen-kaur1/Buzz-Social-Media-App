@@ -214,13 +214,3 @@ function SignUpForm(props) {
     </Form>
   )
 }
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({setUserInfo}, dispatch);
-}
-
-export default compose(connect(mapStateToProps, mapDispatchToProps)) (
-  withRouter(SignUpForm)
-); 
