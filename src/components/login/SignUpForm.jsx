@@ -46,7 +46,7 @@ function SignUpForm(props) {
     setLoginType
   } = props;
   let navigate = useNavigate();
-  const updateProfile = useSelector(state => state.login)
+  // const updateProfile = useSelector(state => state.login)
   const dispatch = useDispatch()
 
   // const{

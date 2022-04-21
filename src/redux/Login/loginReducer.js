@@ -11,7 +11,8 @@ const initialState ={
     birthday:'',
     city:'',
     stateAddress:'Delhi',
-    pinCode: 0
+    pinCode: 0,
+    friends:[]
 }
 
 const loginReducer = (state = initialState,action)=>{
@@ -25,6 +26,11 @@ const loginReducer = (state = initialState,action)=>{
             return {
                 ...state, 
                 profilePhoto: action.profilePhoto
+            }
+        case 'SETFRIENDSLIST':
+            return {
+                ...state, 
+                friends: action.friends
             }
         case 'LOGIN_SUCCESS':
             return {

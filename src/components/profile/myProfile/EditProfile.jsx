@@ -59,8 +59,8 @@ function EditProfile() {
       <div className='d-flex justify-content-between' style={{ width: "45%" }} >
         <InputBox type="text" id="stateAddress" name="State" values={formik.values.stateAddress} 
           onchange={formik.handleChange} onblurr={formik.handleBlur}/>
-        <InputBox type="number" id="pinCode" name="Pin Code" values={formik.values.pinCode} 
-          onchange={formik.handleChange} onblurr={formik.handleBlur}/>
+        <InputBox type="number" id="pinCode" name="Pin Code" values={formik.values.stateAddress} 
+          onchange={formik.handleChange} onblurr={formik.handleBlur} />
       </div>
       <Button color="blue-filled" name="Save"/>
       <Button color="blue" name="Reset All"/>

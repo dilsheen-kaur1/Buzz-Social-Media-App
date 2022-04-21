@@ -1,8 +1,9 @@
-// export const isLoggedIn =()=>{
-//     return{
-//         type: "ISLOGGEDIN",
-//     }
-// }
+export const setFriendsList =(friends)=>{
+    return{
+        type: "SETFRIENDSLIST",
+        friends: friends
+    }
+}
 
 export const setProfilePhoto =(profilePhoto)=>{
     return{

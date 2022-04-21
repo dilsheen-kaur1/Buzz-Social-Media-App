@@ -37,16 +37,15 @@ function Common(props) {
   return (
     <div className='common-cover position-relative'>
       <div className="cover-photo">
-        <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/cover.jpg`} alt="cover photo" />
+        <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/cover.jpg`} alt="cover" />
       </div>
       <div className='profile-photo'>
-        <img src={profilePhoto} alt="profile photo" className='' />
+        <img src={profilePhoto} alt="profile" className='' />
         {type === 'edit' ?
           <>
             <div className='add-photo'>
-              {/* <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/add-photo.png`} alt="add photo" /> */}
               <label htmlFor="file">
-                <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/add-photo.png`} alt="add photo" />
+                <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/add-photo.png`} alt="add" />
                 <input type="file" id="file" 
                   style={{display: "none"}} name="image" 
                   accept="image/jpeg,image/jpg,image/png" multiple="" 
