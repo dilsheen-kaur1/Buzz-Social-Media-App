@@ -4,7 +4,6 @@ import axios from "axios"
 import defaultProfilePicture from './defaultProfilePicture.png'
 
 function Post(props) {
-  // const [userData, setUserData] = useState([]);
   const [userPostId, setUserPostId] = useState('');
   const [desc, setDesc] = useState('');
   const [url, setUrl] = useState('');
