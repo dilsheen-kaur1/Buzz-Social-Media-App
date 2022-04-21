@@ -42,7 +42,7 @@ function SignUpForm(props) {
     setLoginType
   } = props;
   let navigate = useNavigate();
-  // const updateProfile = useSelector(state => state.login)
+  const updateProfile = useSelector(state => state.login)
   const dispatch = useDispatch()
 
   // const{
@@ -121,6 +121,7 @@ function SignUpForm(props) {
     })
   }
 
+
   function Login() {
     let json = {
       "email": formik.values.email,
@@ -134,21 +135,17 @@ function SignUpForm(props) {
     })
     .then((res) => {
       if(res.data.email){
-        // setUserInfo(res);
-        localStorage.setItem("user", JSON.stringify(res));
-
         let {
           firstName,lastName,_id,gender,profilePicture,isAdmin,designation,birthday,stateAddress,city,pinCode,myWebsite
         } = res.data
         dispatch(setProfilePhoto(profilePicture))
         dispatch(loginScucess(true, _id,firstName,lastName,gender,designation,myWebsite,birthday,city,stateAddress,pinCode,isAdmin))
-        navigate('/editProfile')
+        navigate('/post')
       }
     }).catch(err => {
       console.log(err);
     }) 
   }
-
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group as={Row} className="mb-5 justify-content-center w-75 mx-auto" controlId="formPlaintextText"
@@ -211,4 +208,4 @@ function SignUpForm(props) {
   )
 }
 
-export default SignUpForm
+export default SignUpForm;
