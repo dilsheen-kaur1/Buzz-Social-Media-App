@@ -8,7 +8,8 @@ function InputBox(props) {
         id,
         values,
         onchange,
-        onblurr
+        onblurr,
+        errors
     } = props
     const [gender, setGender] = useState('female')
     return (
@@ -38,17 +39,17 @@ function InputBox(props) {
                             id={id}
                             placeholder={name}
                             style={{ color: type === "date" ? '#e5e5e5' : null }}
-                            min={type === "number" ? "100000" : null}
-                            max={type === "number" ? "999999" : type === "date" ? "2004-01-01" : null}
+                            // min={type === "number" ? "100000" : null}
+                            max={type === "date" ? "2004-01-01" : null}
                             value={values}
                             onChange={onchange}
                             onBlur={onblurr}
                             onKeyDown={type === 'date' ? (e) => e.preventDefault() : null} />
+                        {
+                            errors!==''?<div style={{ color: 'red' }}>{errors}</div> : null
+                        }
                     </div>
             }
-                {/* if(id==="firstName") {
-                    formik.errors.email ? <div style={{ color: 'red' }}>{formik.errors.email}</div> : null
-                } */}
         </>
     )
 }

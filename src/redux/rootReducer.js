@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
-
-import auth from './reducers/auth';
-import post from './reducers/post';
 import loginReducer from "./Login/loginReducer";
 
 const rootReducer = combineReducers({
-  auth, 
-  post,
   login:loginReducer
 });
 
-export default rootReducer;
+const mainReducer = (state, action) => {
+  if(action.type === 'LOGOUT_SUCCESS') state = undefined;
+  return rootReducer(state, action)
+}
+
+export default mainReducer;

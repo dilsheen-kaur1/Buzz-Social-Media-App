@@ -1,16 +1,24 @@
-import "./Header.css"
-import {useSelector} from 'react-redux'
+import "./Header.css";
+import { useSelector, useDispatch } from 'react-redux';
+import { OverlayTrigger, Popover } from "react-bootstrap";
+import { useNavigate } from 'react-router';
+import { logoutUserSuccess } from '../../../redux/Login/loginAction';
 
 function Header(props) {
-  const{
-      name
-  }=props
-  const updateProfile = useSelector(state => state.login)
+  const updateProfile = useSelector(state => state.login);
 
   const{
     profilePhoto,
     firstName
-  } = updateProfile
+  } = updateProfile;
+
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch(logoutUserSuccess());
+    navigate('/buzz')
+  }
 
   return (
     <div className="container-fluid px-5 header">
@@ -24,8 +32,29 @@ function Header(props) {
             <img src={profilePhoto} alt="user" className="user-image header-user-image"/>
             <span style={{color:"black"}}>{firstName}</span>
         </a></li>
-        <li className="nav-item me-3"><a href="#" className="nav-link"><img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/user.PNG`} alt="friend-requests"/></a></li>
-        <li className="nav-item"><a href="#" className="nav-link"><img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/down-arrow.PNG`} alt="down-arrow"/></a></li>
+        <li className="nav-item me-3"><a href="#" className="nav-link p-3"><img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/user.PNG`} alt="friend-requests"/></a></li>
+        {/* <li className="nav-item"><a href="#" className="nav-link"><img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/down-arrow.PNG`} alt="down-arrow"/></a></li> */}
+        <li className="nav-item p-3" role="button">
+          <OverlayTrigger
+            trigger="click"
+            placement="bottom-end"
+            rootClose={true}
+            overlay={
+              <Popover id="popover-positioned-bottom" className='LogoutOverlay'>
+                <Popover.Body className="LogoutPopover">
+                  <div onClick={() => logout()} className="d-flex align-items-center Logout">
+                    <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/Logout.svg`}
+                        alt="logout"
+                        className='me-3' />
+                    Logout
+                  </div>
+                </Popover.Body>
+              </Popover>
+            }
+          >            
+            <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/down-arrow.PNG`} alt="down-arrow"/>
+          </OverlayTrigger>
+        </li>
       </ul>
     </header>
   </div>

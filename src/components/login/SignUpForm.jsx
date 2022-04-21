@@ -5,11 +5,7 @@ import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
 import  axios  from 'axios';
 import { Form, Row, Col } from 'react-bootstrap'
-import { bindActionCreators, compose } from "redux";
-import { connect } from "react-redux";
-import { setUserInfo } from '../../redux/actions/user';
 import {loginScucess, setProfilePhoto} from '../../redux/Login/loginAction'
-import withRouter from '../../router.js';
 import './SignUpForm.css'
 
 const validate = values => {
@@ -125,7 +121,6 @@ function SignUpForm(props) {
     })
   }
 
-
   function Login() {
     let json = {
       "email": formik.values.email,
@@ -139,7 +134,7 @@ function SignUpForm(props) {
     })
     .then((res) => {
       if(res.data.email){
-        setUserInfo(res);
+        // setUserInfo(res);
         localStorage.setItem("user", JSON.stringify(res));
 
         let {
@@ -153,6 +148,7 @@ function SignUpForm(props) {
       console.log(err);
     }) 
   }
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group as={Row} className="mb-5 justify-content-center w-75 mx-auto" controlId="formPlaintextText"
@@ -214,3 +210,5 @@ function SignUpForm(props) {
     </Form>
   )
 }
+
+export default SignUpForm

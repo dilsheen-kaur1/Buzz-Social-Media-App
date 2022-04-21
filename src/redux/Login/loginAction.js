@@ -12,6 +12,12 @@ export const setProfilePhoto =(profilePhoto)=>{
     }
 }
 
+export const logoutUserSuccess = () => {
+    return {
+        type: "LOGOUT_SUCCESS"
+    };
+};
+
 export const loginScucess =(loggedIn,userId,firstName,lastName,gender,designation,myWebsite,birthday,city,stateAddress,pinCode,isAdmin)=>{
     return{
         type: "LOGIN_SUCCESS",
