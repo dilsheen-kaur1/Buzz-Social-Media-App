@@ -1,8 +1,11 @@
 import { combineReducers } from "redux";
+
 import loginReducer from "./Login/loginReducer";
+import postReducer from "./Post/postReducer";
 
 const rootReducer = combineReducers({
-  login:loginReducer
+  login:loginReducer,
+  post:postReducer
 });
 
 const mainReducer = (state, action) => {

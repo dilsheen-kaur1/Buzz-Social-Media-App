@@ -2,6 +2,8 @@ import Button from '../../commons/button/FormButton';
 import './EditProfile.css'
 import InputBox from "../../commons/input/InputBox"
 import { useFormik } from 'formik';
+import {useSelector, useDispatch} from 'react-redux'
+import {loginScucess} from '../../../redux/Login/loginAction'
 import axios from 'axios';
 
 
@@ -22,10 +24,11 @@ const validate = values => {
 
 
 function EditProfile() {
-  // const updateProfile = useSelector(state => state.login)
-  // const {
-  //   userId
-  // } = updateProfile
+  const updateProfile = useSelector(state => state.login)
+  const {
+    userId
+  } = updateProfile
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -46,14 +49,12 @@ function EditProfile() {
 
       axios({
         method: "put",
-        url: "http://localhost:3000/api/users/",
+        url: `http://localhost:3000/api/users/${userId}`,
         // data: json,
         headers: {"Content-Type": "application/json"}
     })
-    .then((res) => {
+    .then((res) => {    
       if(res.data.email){
-        // setUserInfo(res)
-
         // let {
         //   firstName,lastName,_id,gender,profilePicture,isAdmin,designation,birthday,stateAddress,city,pinCode,myWebsite
         // } = res.data
@@ -83,16 +84,7 @@ function EditProfile() {
         <InputBox type={item[0]} id={item[1]} name={item[2]} values={item[3]}
           onchange={item[4]} onblurr={item[5]} key={index}
           errors={item[1]==="firstName"? formik.errors.firstName :  item[1]==='myWebsite'?formik.errors.myWebsite:'' }
-        />
-        
-        {/* {item[1]==="firstName" ? 
-          (formik.errors.firstName ? <div style={{ color: 'red' }}>{formik.errors.firstName}</div> : null)
-          :
-          item[1]==='myWebsite' ?
-          (formik.errors.myWebsite ? <div style={{ color: 'red' }}>{formik.errors.myWebsite}</div> : null)
-          :null
-        } */}
-      
+        />      
       </>
       )}
 
@@ -109,7 +101,6 @@ function EditProfile() {
       <button type="reset"  className='btn btn-outline-primary p-3' onClick={ e => formik.resetForm()}>Reset All</button>
       {/* <Button color="blue" name="Reset All" /> */}
     </form>
-    // <div>Edit profile</div>
   )
 }
 
