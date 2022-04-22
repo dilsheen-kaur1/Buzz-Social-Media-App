@@ -1,48 +1,40 @@
 import React from 'react';
 import "./ProfileCard.css";
 import profileImage from '../posts/defaultProfilePicture.png';
-import { bindActionCreators, compose } from "redux";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux"
 
 function ProfileCard(props) {
+  const profile = useSelector(state => state.login)
   const {
-    name, 
+    firstName,
     designation,
     profilePicture
-  } = props;
+  } = profile;
   return (
     <div className="card">
-      {/* <div className="cover-img">
-        <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/cover-img.jpg`} alt="" width="150px"/>
-      </div> */}
-        <img className='profile-img' src={profilePicture || profileImage } alt="" />
+      <div className="cover-img">
+        <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/images/cover.jpg`} 
+        className="cover-img"
+        alt=""  />
+      </div>
+      <img className='profile-img' src={profilePicture || profileImage} alt="" />
 
-        <div className="card-body">
-          <h4 className='card-title'>{name}</h4>
-          <p className='card-text'>{designation}</p>
-          <p className='profileviews-wrapper'>
-            <div className="profileviews">
-              <span>234</span>
-              <span className='profile-view-text'>Profile View</span>
-            </div>
-            <div className="postviews">
-              <span>10</span>
-              <span>Post</span>
-            </div>
-          </p>
-        </div>
+      <div className="card-body">
+        <h4 className='card-title'>{firstName}</h4>
+        <p className='card-text'>{designation}</p>
+        <p className='profileviews-wrapper'>
+          <div className="profileviews">
+            <span>234</span>
+            <span className='profile-view-text'>Profile View</span>
+          </div>
+          <div className="postviews">
+            <span>10</span>
+            <span>Post</span>
+          </div>
+        </p>
+      </div>
     </div>
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({}, dispatch);
-}
-
-export default compose(connect(mapStateToProps, mapDispatchToProps)) (
-  ProfileCard
-);
+export default ProfileCard;

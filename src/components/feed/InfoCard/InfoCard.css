@@ -1,12 +1,12 @@
 .info-container {
   position: absolute;
   width: 16%;
-  height: 420px;
+  height: 450px;
   background-color: #fff;
   left: 10%;
   margin-top: 50px;
   top: 380px;
-  padding-top: 20px;
+  padding-top: 10px;
   border-radius: 15px;
 
 }

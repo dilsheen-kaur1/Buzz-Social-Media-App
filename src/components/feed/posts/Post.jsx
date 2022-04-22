@@ -1,100 +1,133 @@
 import React, { useEffect, useState } from 'react'
 import "./Post.css";
 import axios from "axios"
-import defaultProfilePicture from './defaultProfilePicture.png'
+import { useSelector, useDispatch } from 'react-redux';
+import defaultProfilePicture from './defaultProfilePicture.png';
+import { createPostSuccess, setPostData } from '../../../redux/Post/postAction';
+import { loginScucess } from '../../../redux/Login/loginAction';
 
 function Post(props) {
-  const [userPostId, setUserPostId] = useState('');
-  const [desc, setDesc] = useState('');
-  const [url, setUrl] = useState('');
-  const [creationDate, setCreationDate] = useState('');
-  const [like, setLike] = useState('');
+  const[comment, setComment] = useState('');
+  const postData = useSelector(state => state.post)
+  const userData = useSelector(state => state.login)
+
+  const { userId, firstName, profilePicture } = userData;
+  const {
+    _id,
+    description,
+    url,
+    creationDate,
+    likes,
+    comments,
+    createdAt,
+    updatedAt,
+    postArr
+  } = postData;
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     fetchPostData();
   }, []);
 
   function fetchPostData() {
-    let data = localStorage.getItem("user");
-    let userId = (JSON.parse(data)).data.user_id;
-    // console.log(userId);
-    const json = {
-      "userId": userId,
-    }
-
-    axios({
+    axios({ 
       method: "get",
       url: `http://localhost:3000/api/feed/allPosts/${userId}`,
-      data: json,
       headers: { "Content-Type": "application/json" }
     })
       .then((res) => {
-        // console.log(res.data)
-        setUserPostId(res.data[0]._id)
-        setDesc(res.data[0].description)
-        setUrl(res.data[0].url)
-        setCreationDate(res.data[0].creationDate)
-        // console.log(userId)
-        // console.log(desc)
-        // console.log(url)
+        var postArr = [];
+        postArr = res.data;
+         dispatch(createPostSuccess(_id, description, url, creationDate, likes, comments, userId, createdAt, updatedAt))
+        dispatch(loginScucess(userId, firstName, profilePicture))
+        dispatch(setPostData(postArr))
       }).catch(err => {
         console.log(err);
       })
   }
 
   function likeHandler() {
-    const json = {
-      "id": userPostId
-    }
+    let json = {
+      // "id": _id
+      "id": "62623a1d8bba6fe6717e05ff"
+    };
     axios({
       method: "put",
-      url: `http://localhost:3000/api/feed/likes`,
+      url: "http://localhost:3000/api/feed/likes",
       data: json,
       headers: { "Content-Type": "application/json" }
     })
       .then((res) => {
-       console.log('like increase')
+        dispatch(createPostSuccess(_id, description, url, creationDate, likes, comments, userId, createdAt, updatedAt))
       }).catch(err => {
         console.log(err);
-      })
+      });
   }
+
+  function commentHandler() {
+    let json = {
+      "id": _id,
+      "firstName": firstName,
+      "comment": comment
+    };
+    axios({
+      method: "put",
+      url: "http://localhost:3000/api/feed/comment",
+      data: json,
+      headers: { "Content-Type": "application/json" }
+    })
+      .then((res) => {
+        dispatch(createPostSuccess(_id, description, url, creationDate, likes, comments, userId, createdAt, updatedAt))
+      }).catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <div className="post-wrapper">
-      <div className="sort">
-        <span>
-          <h5>Sort By: &nbsp;</h5>
-        </span>
-        <select name="Sort" id="Sort" required>
-          <option value={'Top'}>Top</option>
-          <option value={'Top'}>Top</option>
-        </select>
-      </div>
-      <div className="card-post" >
-        <div className="card-header">
-          <img src={defaultProfilePicture} className="card-profile-img" alt="" />
-          <div className="profile-name">
-            {/* <span>{userPostId}</span> */}
-            <span className='date-time'>{creationDate.substring(0,10)}</span>
+      {/* {console.log(postArr)} */}
+      {postArr.map((item) => <>
+        <div className="card-post" key={item._id}>
+          <div className="card-header">
+            <img src={defaultProfilePicture} className="card-profile-img" alt="" />
+            <div className="profile-name">
+              <div>{firstName}</div>
+              <span className='date-time'>{item.creationDate.substring(0, 10)}</span>
+            </div>
+          </div>
+
+
+          <p className='card-desc'>{item.description}</p>
+          {item.url ? (
+            <img src={item.url} className="post-img" alt="" />
+          ) : null}
+
+          <div className="card-post-bottom">
+            <div className="card-post-bottom-left">
+              <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/like.png`} alt=""
+                onClick={likeHandler}
+                className="postLike"
+              /> &nbsp;
+              <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/heart.png`} alt=""
+                onClick={likeHandler}
+                className="postLike"
+              />
+              <span className="postLikeCounter"> {item.likes} people like it</span>
+            </div>
+          </div>
+          <div className="comment-wrapper">
+            <img src={defaultProfilePicture} className="img" alt="" />
+
+            <input type="text"
+              placeholder='Write a comment...'
+              name="comment"
+              onChange={(event) => setComment(event.target.value)}
+            />
           </div>
         </div>
-
-
-        <p className='card-desc'>{desc}</p>
-        {url ? (
-          <img src={url} className="post-img" alt="" />
-        ) : null}
-
-        <div className="card-post-bottom">
-          <div className="card-post-bottom-left">
-            <img src={`${process.env.REACT_APP_CONTEXT_PATH}/assets/icons/like.png`} alt="" onClick={likeHandler} className="postLike"/>
-            <span className="postLikeCounter"> {like} people like it</span>
-          </div>
-        </div>
-        <div className="comment-wrapper">
-          <img src={defaultProfilePicture} className="img" alt="" />
-
-          <input type="text" placeholder='Write a comment...' name="comment" />
-        </div>
-      </div>
+      </>
+      )}
     </div>
   )
 }

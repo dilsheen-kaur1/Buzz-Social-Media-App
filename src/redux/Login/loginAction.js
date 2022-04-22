@@ -5,6 +5,13 @@ export const setFriendsList =(friends)=>{
     }
 }
 
+export const getFriendsId = (friendsId) => {
+    return{
+        type: "GET_FRIENDS_ID",
+        friendsId: friendsId
+    }
+}
+
 export const setProfilePhoto =(profilePhoto)=>{
     return{
         type: "SETPROFILEPHOTO",
@@ -17,6 +24,13 @@ export const logoutUserSuccess = () => {
         type: "LOGOUT_SUCCESS"
     };
 };
+
+export const isLoggedInUsingGoogle = (status) => {
+    return {
+        type: "IS_LOGGEDIN_USING_GOOGLE",
+        loggedInUsingGoogle:status
+    };
+}
 
 export const loginScucess =(loggedIn,userId,firstName,lastName,gender,designation,myWebsite,birthday,city,stateAddress,pinCode,isAdmin)=>{
     return{

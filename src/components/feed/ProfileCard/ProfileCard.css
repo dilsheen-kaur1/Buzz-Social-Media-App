@@ -8,19 +8,19 @@
   background-color: #fff;
   color: rgb(78, 75, 75);
   display: flex;
+  border-color: 1px solid lightgray;
   flex-direction: column;
 }
 
-/* .card .cover-img {
-  width: 80%;
+.card .cover-img {
+  width: 100%;
   height: 80px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   position: relative;
   top: 0;
   left: 0;
-  background: purple;
-} */
+}
 
 .card .profile-img {
   border-radius: 40px;
@@ -30,10 +30,12 @@
   top: -30px;
   left: 50%;
   margin-left: -40px;
+  background-color: #fff;
 }
 
 .card .card-body {
   margin-top: -20px;
+  background-color: #fff;
 }
 
 .card .card-title{

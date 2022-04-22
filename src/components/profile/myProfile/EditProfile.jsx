@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import {useSelector, useDispatch} from 'react-redux'
 import {loginScucess} from '../../../redux/Login/loginAction'
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
 
 const validate = values => {
   const errors = {};
@@ -26,41 +26,54 @@ const validate = values => {
 function EditProfile() {
   const updateProfile = useSelector(state => state.login)
   const {
-    userId
+    userId,firstName,lastName,gender,designation,myWebsite,birthday,city,stateAddress,pinCode
   } = updateProfile
+
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      designation: '',
-      myWebsite: '',
-      gender: 'female',
-      birthday: '',
-      city: '',
-      state: '',
-      pinCode: 0
+      firstName: firstName,
+      lastName: lastName,
+      designation: designation,
+      myWebsite: myWebsite,
+      gender: gender,
+      birthday: birthday && birthday.length > 10 ? birthday.substring(0,10) : birthday,
+      city: city,
+      stateAddress: stateAddress,
+      pinCode: pinCode,
     },
     validate,
+    enableReinitialize:true,
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: values => {
       console.log("submitted");
-
+      values.userId = userId;
       axios({
         method: "put",
         url: `http://localhost:3000/api/users/${userId}`,
-        // data: json,
+        data: JSON.stringify(values),
         headers: {"Content-Type": "application/json"}
     })
     .then((res) => {    
-      if(res.data.email){
-        // let {
-        //   firstName,lastName,_id,gender,profilePicture,isAdmin,designation,birthday,stateAddress,city,pinCode,myWebsite
-        // } = res.data
-        // dispatch(setProfilePhoto(profilePicture))
-        // dispatch(loginScucess(true, _id,firstName,lastName,gender,designation,myWebsite,birthday,city,stateAddress,pinCode,isAdmin))
-        // navigate('/editProfile')
+      if(res.data.message){
+        dispatch(loginScucess(true, 
+          values.userId,
+          values.firstName,
+          values.lastName,
+          values.gender,
+          values.designation,
+          values.myWebsite,
+          values.birthday,
+          values.city,
+          values.stateAddress,
+          values.pinCode,
+          false));
+        
+          toast.success("You account details have been updated",{
+            position: toast.POSITION.BOTTOM_RIGHT
+          });
       }
     }).catch(err => {
       console.log(err);
@@ -78,12 +91,48 @@ function EditProfile() {
     ["text", "city", "City", formik.values.city, formik.handleChange, formik.handleBlur]
   ]
 
+  const handleGenderChange = (val) => {
+    formik.setFieldValue("gender", val);
+  }
+
+  const resetForm = () => {
+    formik.resetForm({
+      values: { firstName: '', 
+      lastName: '',
+      designation: '',
+      myWebsite: '',
+      gender: '',
+      birthday: '',
+      city: '',
+      stateAddress: '',
+      pinCode: '' },
+    });
+
+    dispatch(loginScucess(true, 
+      userId,
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      false));
+
+    toast.warning("Please enter new values and click on Save",{
+      position: toast.POSITION.BOTTOM_RIGHT
+    });
+  }
+
   return (
-    <form className="mt-5 ps-5 d-flex flex-wrap edit-form" onSubmit={formik.handleSubmit} novalidate>
+    <form className="mt-5 ps-5 d-flex flex-wrap edit-form" onSubmit={formik.handleSubmit} noValidate>
       {data && data.map((item, index) => <>
         <InputBox type={item[0]} id={item[1]} name={item[2]} values={item[3]}
-          onchange={item[4]} onblurr={item[5]} key={index}
-          errors={item[1]==="firstName"? formik.errors.firstName :  item[1]==='myWebsite'?formik.errors.myWebsite:'' }
+          onchange={item[1] === "gender" ? handleGenderChange : item[4]} onblurr={item[5]} key={index}
+          errors={item[1]==="firstName"? formik.errors.firstName : item[1] === 'myWebsite'? formik.errors.myWebsite :'' }
+          // initialValues = {initialValues}
         />      
       </>
       )}
@@ -98,7 +147,7 @@ function EditProfile() {
         }
       </div>
       <Button color="blue-filled" name="Save" />
-      <button type="reset"  className='btn btn-outline-primary p-3' onClick={ e => formik.resetForm()}>Reset All</button>
+      <button type="reset"  className='btn btn-outline-primary p-3' onClick={() => resetForm()}>Reset All</button>
       {/* <Button color="blue" name="Reset All" /> */}
     </form>
   )

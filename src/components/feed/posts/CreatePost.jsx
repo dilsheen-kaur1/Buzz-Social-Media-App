@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
 import "./CreatePost.css";
-import defaultProfilePicture from './defaultProfilePicture.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { createPostSuccess } from '../../../redux/Post/postAction';
 import axios from "axios";
+import { loginScucess } from '../../../redux/Login/loginAction';
 
 function CreatePost() {
-  let data = localStorage.getItem("user");
-  let userId = (JSON.parse(data)).data._id;
   const [postText, setPostText] = useState('');
+  const postData = useSelector(state => state.post)
+  const userData = useSelector(state => state.login)
+  const { userId, designation } = userData;
+
+  const {
+    _id,
+    description,
+    url,
+    creationDate,
+    likes,
+    comments,
+    createdAt,
+    updatedAt,
+  } = postData;
+
+  const dispatch = useDispatch();
 
   const uploadFile = (e) => {
     e.preventDefault()
@@ -15,6 +31,7 @@ function CreatePost() {
     bodyFormData.append('photo', file)
     bodyFormData.append('description', postText)
     bodyFormData.append('userId', userId)
+    console.log(userId)
 
     function fetchPostData() {
       axios({
@@ -24,7 +41,9 @@ function CreatePost() {
         headers: { "Content-Type": "undefined" }
       })
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
+          dispatch(loginScucess(userId, designation))
+          dispatch(createPostSuccess(_id, description, url, creationDate, likes, comments, userId, createdAt, updatedAt))
         }).catch(err => {
           console.log(err);
         })
@@ -58,7 +77,6 @@ function CreatePost() {
           className='search-field'
           placeholder='Start a post...'
           name='search'
-          // onKeyDown={submitPost}
           onChange={(event) => setPostText(event.target.value)}
           value={postText}
         />
