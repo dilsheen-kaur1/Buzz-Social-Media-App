@@ -12,7 +12,9 @@ const initialState ={
     city:'',
     stateAddress:'Delhi',
     pinCode: 0,
-    friends:[]
+    friends:[],
+    friendsId:[],
+    loggedInUsingGoogle:false
 }
 
 const loginReducer = (state = initialState,action)=>{
@@ -48,7 +50,17 @@ const loginReducer = (state = initialState,action)=>{
                 pinCode: action.pinCode,
                 isAdmin: action.isAdmin,             
             }
-
+        case 'IS_LOGGEDIN_USING_GOOGLE':
+            return {
+                ...state, 
+                loggedInUsingGoogle: action.loggedInUsingGoogle
+            }
+        case 'GET_FRIENDS_ID':
+            return {
+                ...state, 
+                friendsId: action.friendsId
+            }
+        
         default: return state;
     }
 }

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './InputBox.css'
 
 function InputBox(props) {
@@ -9,26 +8,28 @@ function InputBox(props) {
         values,
         onchange,
         onblurr,
-        errors
+        errors,
     } = props
-    const [gender, setGender] = useState('female')
+
     return (
         <>
             {id === 'gender' ?
                 <div className='profile-input d-flex flex-column me-5'>
                     <label htmlFor={id} className='mb-3'>{name}</label>
-                    <div className='p-3 d-flex gender-input '>
-                        <div className={gender === 'female' ? 'active' : null} onClick={() => setGender('female')}>Female</div>
-                        <div className={gender === 'male' ? 'active' : null} onClick={() => setGender('male')}>Male</div>
+                    <div className='d-flex gender-input '>
+                        <div className={values === 'female' ? 'active' : null} onClick={() => onchange("female")}>Female</div>
+                        <div className={values === 'male' ? 'active' : null} onClick={() => onchange("male")}>Male</div>
                     </div>
                 </div>
                 : id === "stateAddress" ?
                     <div className="profile-input d-flex flex-column me-5">
                         <label htmlFor={id} className='mb-3'>{name}</label>
-                        <select className="form-select state-list" aria-label="Default select example">
-                            <option value="Delhi">Delhi</option>
-                            <option value="Punjab">Punjab</option>
-                            <option value="UP">UP</option>
+                        <select id={id} className="form-select state-list" aria-label="Default select example" onChange={onchange}
+                            onBlur={onblurr} value={values}>
+                            <option value="" key="E">Select State</option>
+                            <option value="Delhi" key="D">Delhi</option>
+                            <option value="Punjab" key="P">Punjab</option>
+                            <option value="UP" key="U">UP</option>
                         </select>
                     </div>
                     :
@@ -38,9 +39,9 @@ function InputBox(props) {
                             type={type}
                             id={id}
                             placeholder={name}
-                            style={{ color: type === "date" ? '#e5e5e5' : null }}
-                            // min={type === "number" ? "100000" : null}
-                            max={type === "date" ? "2004-01-01" : null}
+                            // style={{ color: type === "date" ? '#e5e5e5' : null }}
+                            min={type === "date" ? "1997-01-01" : null}
+                            max={type === "date" ? "2030-12-31" : null}
                             value={values}
                             onChange={onchange}
                             onBlur={onblurr}

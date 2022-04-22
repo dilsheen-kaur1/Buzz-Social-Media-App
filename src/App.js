@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux'
 import Header from './components/commons/header/Header';
 import Post from './components/feed/posts/Post';
 import InfoCard from './components/feed/InfoCard/InfoCard';
+import FeedPage from './components/feed/FeedPage/FeedPage';
 import Login from './components/login/Login';
 import EditProfile from './components/profile/myProfile/EditProfile';
 import UserProfile from './components/profile/userProfile/UserProfile';
@@ -24,15 +25,17 @@ function App() {
           <Login/>
         }>
         </Route>
-      </Routes>
-      <Routes>
+
         <Route path='/feed' element={
-          <Header/>}>
+          <FeedPage/>}>
         </Route>
+
         <Route path='/userProfile' element={
           <UserProfile userType="user"/>}/>
+
         <Route path='/editProfile' element={
           <UserProfile userType="self"/>}/>
+
         {/* <Route path='/editProfile' element={
           <EditProfile userType="self"/>}/> */}
       </Routes>

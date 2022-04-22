@@ -34,6 +34,7 @@ function Common(props) {
         console.log(err);
       })
   }
+  
   return (
     <div className='common-cover position-relative'>
       <div className="cover-photo">

@@ -6,6 +6,10 @@
     max-height: 45rem;
 }
 
+.friends-list .friends-list-header{
+    height: 3rem;
+}
+
 .friends-list h2{
     font-weight: 600;
 }
@@ -31,4 +35,10 @@
 
 .friends-list .suggestions-list .suggestions-item a{
     color: #2699fb;
+}
+
+.search-image{
+    width: 1.8rem;
+    height: 2.4rem;
+    cursor: pointer;
 }

@@ -24,8 +24,7 @@ function FormButton(props) {
       <Button variant="outline-primary" 
         type="submit"
         // disabled={disabled}
-        className={color==='pink' ? 'g-signin2 pink': color==='purple'? 'circularButton purple':''}
-        data-onsuccess={onSuccess!==""?onSuccess :" "}>
+        className={color==='pink' ? 'circularButton pink': color==='purple'? 'circularButton purple':''}>
           {name}
       </Button>
         : buttonStyle==="withImg"?

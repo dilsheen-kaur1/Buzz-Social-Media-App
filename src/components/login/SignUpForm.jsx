@@ -1,11 +1,12 @@
 import FormButton from '../commons/button/FormButton';
 import { useState, useRef } from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
 import  axios  from 'axios';
+import { toast } from 'react-toastify';
 import { Form, Row, Col } from 'react-bootstrap'
-import {loginScucess, setProfilePhoto} from '../../redux/Login/loginAction'
+import {loginScucess, setProfilePhoto,getFriendsId} from '../../redux/Login/loginAction'
 import './SignUpForm.css'
 
 const validate = values => {
@@ -42,7 +43,6 @@ function SignUpForm(props) {
     setLoginType
   } = props;
   let navigate = useNavigate();
-  const updateProfile = useSelector(state => state.login)
   const dispatch = useDispatch()
 
   // const{
@@ -134,13 +134,22 @@ function SignUpForm(props) {
         headers: {"Content-Type": "application/json"}
     })
     .then((res) => {
-      if(res.data.email){
+      if(res.data.message==='success'){
+        // setUserInfo(res);
+        localStorage.setItem("user", JSON.stringify(res));
+
         let {
-          firstName,lastName,_id,gender,profilePicture,isAdmin,designation,birthday,stateAddress,city,pinCode,myWebsite
-        } = res.data
+          firstName,lastName,_id,gender,profilePicture,isAdmin,designation,birthday,stateAddress,city,pinCode,myWebsite,followings
+        } = res.data.data
         dispatch(setProfilePhoto(profilePicture))
         dispatch(loginScucess(true, _id,firstName,lastName,gender,designation,myWebsite,birthday,city,stateAddress,pinCode,isAdmin))
-        navigate('/post')
+        dispatch(getFriendsId(followings))
+        navigate('/editProfile')
+      }
+      else{
+        toast.warning("Please enter correct credentials",{
+          position: toast.POSITION.BOTTOM_RIGHT
+        });
       }
     }).catch(err => {
       console.log(err);
