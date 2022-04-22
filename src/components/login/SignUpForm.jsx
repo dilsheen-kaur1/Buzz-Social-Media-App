@@ -121,6 +121,7 @@ function SignUpForm(props) {
     })
   }
 
+
   function Login() {
     let json = {
       "email": formik.values.email,
@@ -154,7 +155,6 @@ function SignUpForm(props) {
       console.log(err);
     }) 
   }
-
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group as={Row} className="mb-5 justify-content-center w-75 mx-auto" controlId="formPlaintextText"
@@ -217,4 +217,4 @@ function SignUpForm(props) {
   )
 }
 
-export default SignUpForm
+export default SignUpForm;
