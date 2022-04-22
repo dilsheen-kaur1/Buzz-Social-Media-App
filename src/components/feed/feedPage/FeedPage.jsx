@@ -30,7 +30,7 @@ function FeedPage(props) {
         </div>
 
         <div className="rightbar">
-          <FriendsList/>
+          <FriendsList name="Friends"/>
         </div>
       </div>
     </div>

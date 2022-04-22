@@ -59,7 +59,7 @@ function FriendsList(props) {
     }
 
     useEffect(() => {
-        if(name === 'friends'){
+        if(name === 'Friends'){
             getFriends()
         }
         else{
